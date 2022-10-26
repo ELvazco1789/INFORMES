@@ -431,144 +431,52 @@ for cantidad, cine, edad, dia in zip(cantidad_boletos, tipos_cine, tipo_boleto, 
 dineroRecaudado=sum(dineroRecaudado)
 print(f'Dinero recaudado: {dineroRecaudado}')
 
-# ------------------------ EJERCICIO 4 --------------------------------
-
-"""Desarrolle las siguientes funciones:
-
-NOMBRE DE LA FUNCION     PROBLEMA                                                    TIPO DE ENTRADA            RETORNO                                  NOTA
-obtenerMultiplos        * Funcion que retorne los primeros 10 multiplos de un numero  * Entero (un numero)     * Lista con los multiplos                 *El cero no se tendrá en cuenta como un múltiplo
-obtenerDivisores        * Función que retorne los divisores de un numero              * Entero (un numero)     * Lista con los divisores                 *El numero 1, ni el mismo numero de entrada, se considerarán divisores
-obtenerNesimoFibonacci  * Función que retorne el n-esimo numero fibonacci             * Entero (un numero)     * Entero (numero fibonacci)               *El primer numero de la serie es 0, el segundo es el 1
-
-Almacene su respuesta en un listado llamado funciones, de la siguiente manera:
-    funciones = [obtenerMultiplos, obtenerDivisores, obtenerNesimoFibonacci]
-"""
-
-''''La función obtenerMultiplos recibe un número entero y 
-    retorna una lista con los primeros 10 múltiplos de ese número
-    , excepto el cero. Si el número es cero, retorna una lista vacía.
-    
-
-'''
+#Ejercicio 4
+# #obtenerMultiplos: Función para generar los primeros 10 multiplos de un numero.
 
 def obtenerMultiplos(numero):
-    lista = []
-    if numero == 0:
-        return lista
-    else:
-        for i in range(1, 11):
-            lista.append(numero*i)
-        return lista
 
+  return [numero * i for i in range(1, 10 + 1)]
 
-num = int(input("\nIngrese un numero entero: "))
-print(f'\nLista de 10 primeros numeros multiplos\n{obtenerMultiplos(num)}\n')
+obtenerMultiplos(55)
 
-''''La función obtenerDivisores recibe un número entero y 
-    retorna una lista con los divisores de ese número
-    , excepto el 1 y el mismo número. Si el número es 1, retorna una lista vacía.
-'''
-
+#obtenerDivisores: función para generar una lista de todos los divisores positivos de un número.
 
 def obtenerDivisores(numero):
-    lista = []
-    if numero == 1:
-        return lista
-    else:
-        for i in range(2, numero):
-            if numero % i == 0:
-                lista.append(i)
-        return lista
-
-
-print(f'\nLista de divisores del numero {num}\n{obtenerDivisores(num)}\n')
-
-'''La función obtenerNesimoFibonacci recibe un número entero y
-    retorna el n-esimo número de la serie de Fibonacci
-    y una lista con los n primeros números de la serie de Fibonacci.
+    """
+    Genera una lista de los divisores de un número.
+    """
+    lista = [i for i in range(1, numero + 1) if numero % i == 0] 
+    lista.pop(0)
+    a = len(lista)
+    lista.pop(a-1)
     
-'''
+    return lista
 
+obtenerDivisores(1000)
 
-def obtenerNesimoFibonacci(numero):
-    lista = []
-    a, b = 0, 1
-    for i in range(numero):
-        lista.append(a)
-        if i != numero-1:
-            a, b = b, a + b
-    return a, lista
+from numpy.lib.function_base import bartlett
+#Secuencia de Fibonacci - Recursiva:
 
-
-a, lista = obtenerNesimoFibonacci(num)
-print(f'\nEl numero fibonacci de la posicion {num} es: {a}\n')
-print(f'\nLista de numeros fibonacci hasta la posicion {num}\n{lista}\n')
-funciones = [obtenerMultiplos(num), obtenerDivisores(num), obtenerNesimoFibonacci(num)]
-print(f'\nLista de funciones\n{list(funciones)}\n')
-
-# ------------------------ EJERCICIO 5 --------------------------------
-
-""" El salario de un empleado de una empresa se calcula, utilizando como base  
-$1200000, más un apoyo del 10% en transporte, y uno de 5% por gastos varios.
-Además se paga una comisión de acuerdo al numero de ventas de los siguientes productos:
-           
-                precio     comisión
-* Zapatos:    $ 50 000        5%
-* Tenis:      $ 70 000        4%  
-* Camisa:     $ 40 000        6%
-* Corbata:    $ 25 000        7%
-* Pantalon:   $ 35 000        5%
-* Blusa:      $ 80 000        3%
-* Vestido:    $ 95 000        2%
-
- Realice una función llamada calcularSalario, que reciba dos parametros:
+def obtenerNesimoFibonacci(num):
+  if  num==0:
+    return 0
+  elif num ==1:
+    return 1
+  else:
+    return obtenerNesimoFibonacci(num-1) + obtenerNesimoFibonacci(num-2)
  
-  * El nombre del trabajador
-  * Una lista con la cantidad de productos vendidos [zapatos, tenis, camisas, corbatas, pantalones, blusas, vestidos] 
- 
- La funcion debe retornar =>
-  Un diccionario con el nombre y el salario obtenido, por ejemplo: 
-  {"nombre": "Cristian Pachon", "salario" : 2000000}  #(conserve las claves "nombre" y "salario") 
-"""
+
+obtenerNesimoFibonacci(25)
+""EJERCICIO 5"""
+
+#Ejercicio 5
 
 
-comisionVentas={
-  "Zapatos":{ "precio":50000, "comision":0.05},
-  "Tenis":{ "precio":70000, "comision":0.04},
-  "Camisa":{ "precio":40000, "comision":0.06},
-  "Corbata":{ "precio":25000, "comision":0.07},
-  "Pantalon":{ "precio":35000, "comision":0.05},
-  "Blusa":{ "precio":80000, "comision":0.03},
-  "Vestido":{ "precio":95000, "comision":0.02},
-}
-
-def calcularSalario(nombre, lista):
-  salario = 1200000 #salario base
-  transporte = salario*0.1 # 10% de transporte
-  gastos = salario*0.05 # 5% de otros gastos
-  salario = salario + transporte + gastos
-
-  comisionPorVenta ={k:v['precio']*v['comision'] for k,v in comisionVentas.items()}
-  # print(f'comisionPorVenta \n{comisionPorVenta}\n')
+def calcularSalario(Nombre, cantidadArticulos):
   
-  if isinstance(nombre,str) and isinstance(lista, list):
-    '''Sí para cada elemento de la lista se cumple que es un str'''
-    if all(isinstance(elemento, str) for elemento in lista):
-      for i in range(len(lista)):
-        if lista[i] in comisionPorVenta.keys():
-          salario = salario + comisionPorVenta[lista[i]]
-      return {"nombre":nombre, "salario":salario}
-    
-    # if all(isinstance(elemento2,int) for elemento2 in lista):
-    #   for i in range(len(lista)):
-    #     print(f'lista[{i}] {lista[i]} | tipo de dato {type(lista[i])}')
-    #     print(f'Keys: {comisionPorVenta.keys()} | values: {comisionPorVenta.values()}')
-    #     salario = salario + lista[i]*[c for c in comisionPorVenta.values()][i]
-    #   return {"nombre": nombre, "salario" : salario}
-      
+    cantidadArticulos = (1380000 + cantidadArticulos[0] * 5000 + cantidadArticulos[1] * 2800 + cantidadArticulos[2] * 2400 + cantidadArticulos[3] * 1750 + cantidadArticulos[4] * 1750 + cantidadArticulos[5] * 2400 + cantidadArticulos[6] * 1900)
+    return {"nombre": Nombre, "salario": cantidadArticulos}
 
+calcularSalario("Juan",[1,2,3,4,4,6,8])
 
-print(calcularSalario("Cristian Pachon", ["Zapatos","Tenis", "Camisa", "Corbata", "Pantalon", "Blusa", "Vestido"]))
-#print(calcularSalario("Cristian Pachon2", [3,1,2,1,1,1,1]))
-# print(len(["Zapatos","Tenis", "Camisa", "Corbata", "Pantalon", "Blusa", "Vestido"]))
-# print(len([1,1,1,1,1,1,1]))
